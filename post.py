@@ -2,27 +2,22 @@
 
 
 import config
-import mysql.connector
+import random
 import re
+import requests
 import tweepy
 
 
 if __name__ == '__main__':
-    db = mysql.connector.connect(host=config.db_host, user=config.db_user,
-            password=config.db_pass, database=config.db_name)
-    cursor = db.cursor()
-    cursor.execute('''SELECT alpha, inf, ind_praes, ind_praet, konj_ii, imp,
-            part_ii FROM mw_verb ORDER BY RAND() LIMIT 1''')
-    row = cursor.fetchone()
-    alpha, inf, ind_praes, ind_praet, konj_ii, imp, part_ii = row
-    cursor.close()
-    db.close()
-    inf = inf.decode('utf-8')
-    ind_praes = ind_praes.decode('utf-8')
-    ind_praet = ind_praet.decode('utf-8')
-    konj_ii = konj_ii.decode('utf-8')
-    imp = imp.decode('utf-8')
-    part_ii = part_ii.decode('utf-8')
+    r = requests.get('https://neutsch.org/api/verbs.php')
+    r.raise_for_status()
+    verbs = r.json()
+    verb = random.choice(verbs)
+    alpha = verb['alpha']
+    inf = verb['inf']
+    ind_praet = verb['ind_praet']
+    konj_ii = verb['konj_ii']
+    part_ii = verb['part_ii']
     text = f'{inf} – {ind_praet} – {konj_ii} – {part_ii}'
     text += f' https://neutsch.org/Starke_Verben/{alpha}'
     client = tweepy.Client(
