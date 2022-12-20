@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 
 
-import config
 import random
 import re
+
+
+from mastodon import Mastodon
 import requests
-import tweepy
 
 
 if __name__ == '__main__':
@@ -20,11 +21,8 @@ if __name__ == '__main__':
     part_ii = verb['part_ii']
     text = f'{inf} – {ind_praet} – {konj_ii} – {part_ii}'
     text += f' https://neutsch.org/Starke_Verben/{alpha}'
-    client = tweepy.Client(
-        bearer_token=config.bearer_token,
-        consumer_key=config.consumer_key,
-        consumer_secret=config.consumer_secret,
-        access_token=config.access_token,
-        access_token_secret=config.access_token_secret,
+    mastodon = Mastodon(
+        access_token = 'token.secret',
+        api_base_url = 'https://botsin.space',
     )
-    client.create_tweet(text=text)
+    mastodon.toot(text)
