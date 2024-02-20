@@ -50,6 +50,8 @@ def text_antonym():
     for dd in dds:
         text += ' '
         text += dd.get_text()
+    # Add link
+    text += ' https://neutsch.org/Antonyme'
     # Return
     return text
 
