@@ -59,9 +59,8 @@ def text_antonym():
 if __name__ == '__main__':
     f = random.choice((text_verb, text_antonym))
     text = f()
-    print(text)
-    #mastodon = Mastodon(
-    #    access_token = 'token.secret',
-    #    api_base_url = 'https://botsin.space',
-    #)
-    #mastodon.toot(text)
+    mastodon = Mastodon(
+        access_token = 'token.secret',
+        api_base_url = 'https://botsin.space',
+    )
+    mastodon.toot(text)
