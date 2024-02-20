@@ -5,6 +5,8 @@ import random
 import re
 
 
+from bs4 import BeautifulSoup
+from bs4.element import Tag
 from mastodon import Mastodon
 import requests
 
@@ -24,10 +26,40 @@ def text_verb():
     return text
 
 
+def text_antonym():
+    # Get page data
+    r = requests.get('https://neutsch.org/api.php?action=parse&page=Antonyme&format=json')
+    r.raise_for_status()
+    data = r.json()
+    text = data['parse']['text']['*']
+    # Find a <dt>
+    soup = BeautifulSoup(text, features='html.parser')
+    dl = soup.dl
+    dts = dl.find_all('dt')
+    dt = random.choice(dts)
+    # Collect <dd>s
+    dds = []
+    for sibling in dt.next_siblings:
+        if type(sibling) == Tag:
+            if sibling.name != 'dd':
+                break
+            dds.append(sibling)
+    # Build text
+    text = dt.get_text()
+    text += ':'
+    for dd in dds:
+        text += ' '
+        text += dd.get_text()
+    # Return
+    return text
+
+
 if __name__ == '__main__':
-    text = text_verb()
-    mastodon = Mastodon(
-        access_token = 'token.secret',
-        api_base_url = 'https://botsin.space',
-    )
-    mastodon.toot(text)
+    f = random.choice((text_verb, text_antonym))
+    text = f()
+    print(text)
+    #mastodon = Mastodon(
+    #    access_token = 'token.secret',
+    #    api_base_url = 'https://botsin.space',
+    #)
+    #mastodon.toot(text)
