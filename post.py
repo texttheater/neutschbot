@@ -9,6 +9,7 @@ from bs4 import BeautifulSoup
 from bs4.element import Tag
 from mastodon import Mastodon
 import requests
+from urllib.parse import quote
 
 
 def text_verb():
@@ -27,8 +28,18 @@ def text_verb():
 
 
 def text_antonym():
+    return random_definition('Antonyme')
+
+
+def text_departicipal_verb():
+    return random_definition('Partizipation')
+
+
+def random_definition(title):
     # Get page data
-    r = requests.get('https://neutsch.org/api.php?action=parse&page=Antonyme&format=json')
+    url = 'https://neutsch.org/api.php?action=parse&page=' + quote(title) + \
+            '&format=json'
+    r = requests.get(url)
     r.raise_for_status()
     data = r.json()
     text = data['parse']['text']['*']
@@ -52,14 +63,15 @@ def text_antonym():
         text += ' '
         text += dd.get_text()
     # Add link
-    text += ' https://neutsch.org/Antonyme'
+    text += ' https://neutsch.org/' + quote(title)
     # Return
     return text
 
 
 if __name__ == '__main__':
-    f = random.choice((text_verb, text_antonym))
+    f = random.choice((text_verb, text_antonym, text_departicipal_verb))
     text = f()
+    #print(text)
     mastodon = Mastodon(
         access_token = 'token.secret',
         api_base_url = 'https://botsin.space',
