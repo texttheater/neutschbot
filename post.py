@@ -34,7 +34,8 @@ def text_antonym():
     text = data['parse']['text']['*']
     # Find a <dt>
     soup = BeautifulSoup(text, features='html.parser')
-    dl = soup.dl
+    dls = soup.find_all('dl')
+    dl = random.choice(dls)
     dts = dl.find_all('dt')
     dt = random.choice(dts)
     # Collect <dd>s
