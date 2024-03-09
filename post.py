@@ -45,9 +45,7 @@ def random_definition(title):
     text = data['parse']['text']['*']
     # Find a <dt>
     soup = BeautifulSoup(text, features='html.parser')
-    dls = soup.find_all('dl')
-    dl = random.choice(dls)
-    dts = dl.find_all('dt')
+    dts = soup.find_all('dt')
     dt = random.choice(dts)
     # Collect <dd>s
     dds = []
