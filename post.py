@@ -3,13 +3,15 @@
 
 import random
 import re
+import sys
+import unicodedata
+from urllib.parse import quote
 
 
 from bs4 import BeautifulSoup
 from bs4.element import Tag
 from mastodon import Mastodon
 import requests
-from urllib.parse import quote
 
 
 def text_verb():
@@ -35,6 +37,10 @@ def text_departicipal_verb():
     return random_definition('Partizipation')
 
 
+def is_punctuation(char):
+    return unicodedata.category(char)[0] == 'P'
+
+
 def random_definition(title):
     # Get page data
     url = 'https://neutsch.org/api.php?action=parse&page=' + quote(title) + \
@@ -55,11 +61,13 @@ def random_definition(title):
                 break
             dds.append(sibling)
     # Build text
-    text = dt.get_text()
+    text = dt.get_text().strip()
     text += ':'
     for dd in dds:
         text += ' '
-        text += dd.get_text()
+        text += dd.get_text().strip()
+        if not is_punctuation(text[-1]):
+            text += '.'
     # Add link
     text += ' https://neutsch.org/' + quote(title)
     # Return
