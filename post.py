@@ -77,9 +77,11 @@ def random_definition(title):
 if __name__ == '__main__':
     f = random.choice((text_verb, text_antonym, text_departicipal_verb))
     text = f()
-    #print(text)
-    mastodon = Mastodon(
-        access_token = 'token.secret',
-        api_base_url = 'https://botsin.space',
-    )
-    mastodon.toot(text)
+    if '-n' in sys.argv:
+        print(text)
+    else:
+        mastodon = Mastodon(
+            access_token = 'token.secret',
+            api_base_url = 'https://botsin.space',
+        )
+        mastodon.toot(text)
