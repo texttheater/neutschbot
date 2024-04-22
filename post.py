@@ -74,6 +74,35 @@ def random_definition(title):
     return text
 
 
+def random_row(title, relation):
+    # Get page data
+    url = 'https://neutsch.org/api.php?action=parse&page=' + quote(title) + \
+            '&format=json'
+    r = requests.get(url)
+    r.raise_for_status()
+    data = r.json()
+    text = data['parse']['text']['*']
+    # Find a non-header <tr>
+    soup = BeautifulSoup(text, features='html.parser')
+    trs = soup.find_all('tr')
+    trs = [t for t in trs if t[0] != 'th']
+    tr = random.choice(trs)
+    # Collect <td>s
+    tds = tr.find_all('td')
+    # Build text
+    text = tds[0].get_text().strip()
+    text += ' ('
+    text += relation
+    text += ' '
+    text += td[1].get_text().strip()
+    text += ') '
+    text += td[2].get_text().strip()
+    # Add link
+    text += ' https://neutsch.org/' + quote(title)
+    # Return
+    return text
+
+
 if __name__ == '__main__':
     f = random.choice((text_verb, text_antonym, text_departicipal_verb))
     text = f()
