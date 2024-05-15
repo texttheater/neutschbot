@@ -37,6 +37,10 @@ def text_departicipal_verb():
     return random_definition('Partizipation')
 
 
+def text_rerivation():
+    return random_definition('Morphologische Aufleitung')
+
+
 def is_punctuation(char):
     return unicodedata.category(char)[0] == 'P'
 
@@ -104,7 +108,8 @@ def random_row(title, relation):
 
 
 if __name__ == '__main__':
-    f = random.choice((text_verb, text_antonym, text_departicipal_verb))
+    f = random.choice((text_verb, text_antonym, text_departicipal_verb,
+        text_rerivation))
     text = f()
     if '-n' in sys.argv:
         print(text)
