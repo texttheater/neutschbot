@@ -33,6 +33,10 @@ def text_antonym():
     return random_definition('Antonyme')
 
 
+def text_denegation():
+    return random_definition('Entneinungen')
+
+
 def text_departicipal_verb():
     return random_definition('Partizipation')
 
@@ -108,8 +112,8 @@ def random_row(title, relation):
 
 
 if __name__ == '__main__':
-    f = random.choice((text_verb, text_antonym, text_departicipal_verb,
-        text_rerivation))
+    f = random.choice((text_verb, text_antonym, text_denegation,
+        text_departicipal_verb, text_rerivation))
     text = f()
     if '-n' in sys.argv:
         print(text)
