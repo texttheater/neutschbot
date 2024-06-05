@@ -115,9 +115,8 @@ if __name__ == '__main__':
     f = random.choice((text_verb, text_antonym, text_denegation,
         text_departicipal_verb, text_rerivation))
     text = f()
-    if '-n' in sys.argv:
-        print(text)
-    else:
+    print(text)
+    if '-n' not in sys.argv:
         mastodon = Mastodon(
             access_token = 'token.secret',
             api_base_url = 'https://botsin.space',
