@@ -76,7 +76,11 @@ def random_definition(title):
         text += dd.get_text().strip()
         if not is_punctuation(text[-1]):
             text += '.'
-    # Add link
+    # Shorten if needed
+    max_len = 500 - 24 # URL incl. space before it counted as 24 chars
+    if len(text) > max_len:
+        text = text[:max_len - 1] + '…'
+    # Add URL
     text += ' https://neutsch.org/' + quote(title)
     # Return
     return text
@@ -105,7 +109,11 @@ def random_row(title, relation):
     text += td[1].get_text().strip()
     text += ') '
     text += td[2].get_text().strip()
-    # Add link
+    # Shorten if needed
+    max_len = 500 - 24 # URL incl. space before it counted as 24 chars
+    if len(text) > max_len:
+        text = text[:max_len - 1] + '…'
+    # Add URL
     text += ' https://neutsch.org/' + quote(title)
     # Return
     return text
