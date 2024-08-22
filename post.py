@@ -81,7 +81,7 @@ def random_definition(title):
     if len(text) > max_len:
         text = text[:max_len - 1] + '…'
     # Add URL
-    text += ' https://neutsch.org/' + quote(title)
+    text += ' https://neutsch.org/' + quote(title.replace(' ', '_'))
     # Return
     return text
 
@@ -114,7 +114,7 @@ def random_row(title, relation):
     if len(text) > max_len:
         text = text[:max_len - 1] + '…'
     # Add URL
-    text += ' https://neutsch.org/' + quote(title)
+    text += ' https://neutsch.org/' + quote(title.replace(' ', '_'))
     # Return
     return text
 
