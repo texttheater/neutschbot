@@ -129,4 +129,7 @@ if __name__ == '__main__':
             access_token = 'token.secret',
             api_base_url = 'https://botsin.space',
         )
-        mastodon.toot(text)
+        mastodon.status_post(
+            status=text,
+            language='de',
+        )
