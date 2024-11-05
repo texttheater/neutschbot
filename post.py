@@ -127,7 +127,7 @@ if __name__ == '__main__':
     if '-n' not in sys.argv:
         mastodon = Mastodon(
             access_token = 'token.secret',
-            api_base_url = 'https://botsin.space',
+            api_base_url = 'https://mastodon.social',
         )
         mastodon.status_post(
             status=text,
