@@ -45,6 +45,14 @@ def text_rerivation():
     return random_definition('Morphologische Aufleitung')
 
 
+def text_loanword():
+    return random_row('Eindeutschungen', 'von')
+
+
+def text_calque():
+    return random_row('Verdeutschungen', 'statt')
+
+
 def is_punctuation(char):
     return unicodedata.category(char)[0] == 'P'
 
@@ -97,18 +105,25 @@ def random_row(title, relation):
     # Find a non-header <tr>
     soup = BeautifulSoup(text, features='html.parser')
     trs = soup.find_all('tr')
-    trs = [t for t in trs if t[0].name != 'th']
+    trs = [t for t in trs if next(t.children).name != 'th']
     tr = random.choice(trs)
+    print(tr)
     # Collect <td>s
     tds = tr.find_all('td')
+    # Extract fields
+    lemma = tds[0].get_text().strip()
+    relate = tds[1].get_text().strip()
+    explanation = tds[2].get_text().strip()
     # Build text
-    text = tds[0].get_text().strip()
+    text = lemma
     text += ' ('
     text += relation
     text += ' '
-    text += td[1].get_text().strip()
-    text += ') '
-    text += td[2].get_text().strip()
+    text += relate
+    text += ')'
+    if explanation:
+        text += ' '
+        text += explanation
     # Shorten if needed
     max_len = 500 - 24 # URL incl. space before it counted as 24 chars
     if len(text) > max_len:
@@ -121,7 +136,9 @@ def random_row(title, relation):
 
 if __name__ == '__main__':
     f = random.choice((text_verb, text_antonym, text_denegation,
-        text_departicipal_verb, text_rerivation))
+        text_departicipal_verb, text_rerivation, text_loanword,
+        text_calque))
+    f = random.choice((text_loanword, text_calque))
     text = f()
     print(text)
     if '-n' not in sys.argv:
