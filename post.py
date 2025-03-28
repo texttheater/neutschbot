@@ -138,7 +138,6 @@ if __name__ == '__main__':
     f = random.choice((text_verb, text_antonym, text_denegation,
         text_departicipal_verb, text_rerivation, text_loanword,
         text_calque))
-    f = random.choice((text_loanword, text_calque))
     text = f()
     print(text)
     if '-n' not in sys.argv:
