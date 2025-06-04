@@ -105,7 +105,7 @@ def random_row(title, relation):
     # Find a non-header <tr>
     soup = BeautifulSoup(text, features='html.parser')
     trs = soup.find_all('tr')
-    trs = [t for t in trs if next(t.children).name != 'th']
+    trs = [t for t in trs if t.find('td')]
     tr = random.choice(trs)
     print(tr)
     # Collect <td>s
