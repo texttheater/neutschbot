@@ -14,6 +14,9 @@ from mastodon import Mastodon
 import requests
 
 
+FOOTNOTE_PATTERN = re.compile(r'\[\d+\]')
+
+
 def text_verb():
     r = requests.get('https://neutsch.org/api/verbs.php')
     r.raise_for_status()
@@ -81,7 +84,7 @@ def random_definition(title):
     text += ':'
     for dd in dds:
         text += ' '
-        text += dd.get_text().strip()
+        text += FOOTNOTE_PATTERN.sub('', dd.get_text()).strip()
         if not is_punctuation(text[-1]):
             text += '.'
     # Shorten if needed
